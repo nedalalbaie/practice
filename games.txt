@@ -1,6 +1,199 @@
+<script setup
+        lang="ts">
+        import { mdiArrowDownDropCircleOutline, mdiPlusCircle, mdiPencil, mdiEye  } from '@mdi/js';
+import { ref } from 'vue';
 
-Tekken - Fighting - 1996
-Dark Souls - RPG  2011
-Demon Souls = RPG - 2009
-The Ark - Unknown - 2019
-Hogwarts Legacy - RPG Fantasy - 2022
+        const categories = [
+          {
+            name: 'رجال',
+            sub: [
+              {
+                name: 'هواتف',
+                children: [
+                  {
+                    name: 'سامسونج'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            name: 'نساء',
+            sub: [
+              {
+                name: 'هواتف',
+                children: [
+                  {
+                    name: 'سامسونج'
+                  }
+                ]
+              },
+              {
+                name: 'ملابس',
+                children: [
+                  {
+                    name: 'سروال'
+                  },
+                  {
+                    name: 'جاكيت'
+                  },
+                ]
+              },
+            ]
+          },
+        ]
+
+     const showMainCategory = ref<boolean []>([])   
+     const showCategory = ref<boolean [][]>([])   
+
+</script>
+
+<template>
+<section class="p-12">
+
+  <div v-for="(mainCategory, index) in categories" :key="index" class="border border-gray-500 rounded-lg py-2 px-6 mb-4">   
+
+    <div class="flex items-center gap-4">
+
+      <p class="w-fit">
+       {{  mainCategory.name }} ( {{ mainCategory.sub.length }})
+      </p>
+ 
+      <v-btn  variant="text"
+              density="comfortable"
+              icon
+              color="primary">
+         <v-icon :icon="mdiPlusCircle"/>
+         <v-tooltip activator="parent"
+                    location="bottom">إضافة تصنيف أساسي</v-tooltip>
+      </v-btn>
+       
+      <v-btn  variant="text"
+              density="comfortable"
+              icon
+              >
+         <v-icon color="primary" :icon="mdiPencil"/>
+         <v-tooltip activator="parent"
+                    location="bottom">تعديل</v-tooltip>
+       </v-btn>
+
+       <v-btn  variant="text"
+
+               density="comfortable"
+               icon
+               color="primary">
+          <v-icon :icon="mdiEye"/>
+          <v-tooltip activator="parent"
+                     location="bottom">عرض</v-tooltip>
+        </v-btn>
+   
+        <div class="h-[1px] flex-grow bg-gray-500"></div>
+   
+        <v-btn  variant="text"
+               density="comfortable"
+               icon
+               color="primary"
+               @click="showMainCategory[index] = !showMainCategory[index]"
+               >
+          <v-icon :icon="mdiArrowDownDropCircleOutline"/>
+        </v-btn>
+    </div>
+
+    <div v-for="(category, categoriesIndex) in mainCategory.sub" :key="categoriesIndex" class="mr-10 mt-7" :class="showMainCategory[index] ? 'block' : 'hidden'">
+
+      <div class="flex items-center gap-4 mb-2">
+        <p class="w-fit">
+         {{  category.name }} ( {{ category.children.length }})
+        </p>
+   
+        <v-btn  variant="text"
+                density="comfortable"
+                icon
+                color="primary">
+           <v-icon :icon="mdiPlusCircle"/>
+           <v-tooltip activator="parent"
+                      location="bottom">إضافة تصنيف ثانوي</v-tooltip>
+        </v-btn>
+         
+        <v-btn  variant="text"
+                density="comfortable"
+                icon
+                >
+           <v-icon color="primary" :icon="mdiPencil"/>
+           <v-tooltip activator="parent"
+                      location="bottom">تعديل</v-tooltip>
+         </v-btn>
+  
+         <v-btn  variant="text"
+  
+                 density="comfortable"
+                 icon
+                 color="primary">
+            <v-icon :icon="mdiEye"/>
+            <v-tooltip activator="parent"
+                       location="bottom">عرض</v-tooltip>
+          </v-btn>
+     
+          <div class="h-[1px] flex-grow bg-gray-500"></div>
+     
+          <v-btn  variant="text"
+                 density="comfortable"
+                 icon
+                 color="primary"
+                 @click="showCategory[index][categoriesIndex] = !showCategory[index][categoriesIndex]"
+                 >
+            <v-icon :icon="mdiArrowDownDropCircleOutline"/>
+          </v-btn>
+      </div>
+
+      <div class="border-r-2 border-gray-300 pr-2 mr-10" :class="showCategory[index][categoriesIndex] ? 'block' : 'hidden'">
+        <div v-for="(subCategory, subIndex) in category.children" :key="subIndex" >
+         <div class="flex items-center gap-4 mb-2">
+          <p class="w-fit">
+           {{  subCategory.name }} 
+          </p>
+     
+          <v-btn  variant="text"
+                  density="comfortable"
+                  icon
+                  color="primary">
+             <v-icon :icon="mdiPlusCircle"/>
+             <v-tooltip activator="parent"
+                        location="bottom">إضافة  </v-tooltip>
+          </v-btn>
+           
+          <v-btn  variant="text"
+                  density="comfortable"
+                  icon
+                  >
+             <v-icon color="primary" :icon="mdiPencil"/>
+             <v-tooltip activator="parent"
+                        location="bottom">تعديل</v-tooltip>
+           </v-btn>
+    
+           <v-btn  variant="text"
+    
+                   density="comfortable"
+                   icon
+                   color="primary">
+              <v-icon :icon="mdiEye"/>
+              <v-tooltip activator="parent"
+                         location="bottom">عرض</v-tooltip>
+            </v-btn>
+       
+            <div class="h-[1px] flex-grow bg-gray-500"></div>
+       
+         </div>
+       </div>
+
+      </div>
+
+    </div>
+
+
+    
+
+  </div>
+
+</section>
+</template>
